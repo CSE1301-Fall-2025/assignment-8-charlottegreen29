@@ -15,22 +15,21 @@ import support.cse131.Timing;
  */
 public class ZombieSimulator {
 	private static final String ZOMBIE_TOKEN_VALUE = "Zombie";
+	private Entity[] entities; //was I not supposed to do this?
 
 
 	/**
 	 * Constructs a ZombieSimulator with an empty array of Entities.
 	 */
 	public ZombieSimulator(int n) {
-		// FIXME
-		throw new NotYetImplementedException();
+		entities = new Entity[n];
 	}
 
 	/**
 	 * @return the current array of entities 
 	 */
 	public Entity[] getEntities() {
-		// FIXME
-		throw new NotYetImplementedException();
+		return entities;
 	}
 
 	/** 
@@ -43,24 +42,45 @@ public class ZombieSimulator {
 	 * @param in Scanner to read the complete zombie simulation file format.
 	 */
 	public void readEntities(Scanner in) {
-		// FIXME
-		throw new NotYetImplementedException();
+		String areZombiesText;
+		for (int i=0; i<entities.length; i++){
+			areZombiesText=in.next();
+			boolean isAzombie;
+			if (areZombiesText.equals("Zombie")){
+				isAzombie=true;
+			}
+			else{
+				isAzombie=false;
+			}
+			double x = in.nextDouble();
+			double y = in.nextDouble();
+			if (isAzombie){
+				entities[i] = new Zombie(x, y);
+			}
+			else {
+				entities[i] = new Nonzombie(x, y);
+			}
+		}
 	}
 
 	/**
 	 * @return the number of zombies in entities.
 	 */
 	public int getZombieCount() {
-		// FIXME
-		throw new NotYetImplementedException();
+		int numZombies = 0;
+		for (Entity entity : entities){
+			if (entity.isZombie()){
+				numZombies++;
+			}
+		}
+		return numZombies;
 	}
 
 	/**
 	 * @return the number of nonzombies in entities.
 	 */
 	public int getNonzombieCount() {
-		// FIXME
-		throw new NotYetImplementedException();
+		return entities.length - this.getZombieCount();
 	}
 
 	/**
@@ -86,8 +106,9 @@ public class ZombieSimulator {
 	 * 
 	 */
 	public void update() {
-		// FIXME
-		throw new NotYetImplementedException();
+		for (int i = 0; i<entities.length; i++){
+			entities[i] = entities[i].update(entities); //is this right?
+		}
 	}
 
 	/**

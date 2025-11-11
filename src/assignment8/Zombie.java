@@ -45,9 +45,9 @@ public class Zombie extends Entity {
 	public Entity update(Entity[] entities) { //i had to make findClosest public in order to use it here
 		Entity closest = super.findClosest(entities, false, true);
 		if (closest!=null){
-			super.moveToward(closest);
+			this.moveToward(closest);
 		}
-		super.checkBounds();
+		this.checkBounds();
 		return this; // did I do this right?
 	}
 }
