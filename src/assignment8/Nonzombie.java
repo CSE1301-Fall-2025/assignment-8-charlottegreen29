@@ -13,8 +13,7 @@ public class Nonzombie extends Entity {
 	 * @param y coordinate
 	 */
 	public Nonzombie(double x, double y) {
-		// FIXME
-		throw new NotYetImplementedException();
+		super(x, y, false, NONZOMBIE_SPEED);
 	}
 	
 	/**
@@ -22,17 +21,18 @@ public class Nonzombie extends Entity {
 	 * @return the new Zombie object
 	 */
 	public Zombie convert() {
-		// FIXME
-		throw new NotYetImplementedException();
+		Zombie zombieSelf = new Zombie(super.getX(), super.getY());
+		zombieSelf.setRadius(super.getRadius());
+		super.wasConsumed();
+		return zombieSelf;
 	}
 	
 	/**
 	 * Draw a Nonzombie
 	 */
-	public void draw() {
-		// FIXME
-		throw new NotYetImplementedException();
-
+	public void draw() { //nonzombies will be black i've decided
+		StdDraw.setPenColor(StdDraw.BLACK);
+		StdDraw.filledCircle(super.getX(), super.getY(),super.getRadius());
 	}
 
 	/**
@@ -41,10 +41,35 @@ public class Nonzombie extends Entity {
 	 * @return the new Entity object to take the place of the current one
 	 */
 	public Entity update(Entity[] entities) {
-		// FIXME
-		throw new NotYetImplementedException();
-
-	}
+		boolean touchingZombie = false;
+		Entity zombie;
+		for (Entity entity : entities){
+			if (entity.isZombie() && this.isTouching(entity) && entity!=this){
+				zombie = entity;
+				touchingZombie = true;
+			}
+		}
+		if (touchingZombie){
+			for (int i=0; i<entities.length; i++){
+				if (entities[i] == this){
+					if (Math.random()<=0.8){
+						entities[i] = this.convert();
+						return entities[i];
+					}
+					else {
+						super.wasConsumed();
+						zombie.sub.consumeNonzombie(); //idk how to fix this cuz sub. isn't a thing...
+					}
+				}
+			}
+		}
+		Entity closest = super.findClosest(entities, true, false);
+		if (closest!=null){
+			super.moveAwayFrom(closest);
+		}
+		super.checkBounds();
+		return this;
+	} // did I do this right?
 
 
 }
