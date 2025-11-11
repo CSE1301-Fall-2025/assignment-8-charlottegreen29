@@ -193,7 +193,7 @@ public class Entity {
 	 * @param includeNonzombies whether to include nonzombies in this search or not.
 	 * @return the closest Entity to this Entity in entities (which is not this).
 	 */
-	private Entity findClosest(Entity[] entities, boolean includeZombies, boolean includeNonzombies) {
+	public Entity findClosest(Entity[] entities, boolean includeZombies, boolean includeNonzombies) {
 		Entity closest = null;
 		double closestDist = Double.MAX_VALUE;
 		for (Entity other : entities) {

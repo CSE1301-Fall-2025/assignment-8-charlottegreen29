@@ -13,24 +13,27 @@ public class Zombie extends Entity {
 	 * @param y coordinate
 	 */
 	public Zombie(double x, double y){
-		// FIXME
-		throw new NotYetImplementedException();
+		super(x,y,true,ZOMBIE_SPEED);
 	}
 
 	/**
 	 * Grow the Zombie after consuming a Nonzombie
 	 */
 	public void consumeNonzombie(){
-		// FIXME
-		throw new NotYetImplementedException();
+		if (super.getRadius()*1.2<0.02){
+			super.setRadius(super.getRadius()*1.2);
+		}
+		else {
+			super.setRadius(0.02); //I don't have an if statement that checks if it touched a nonzombie; should I have one?
+		}
 	}
 
 	/**
 	 * Draw the Zombie
 	 */
 	public void draw() {
-		// FIXME
-		throw new NotYetImplementedException();
+		StdDraw.setPenColor(StdDraw.GREEN); //Zombies are green. Duh
+		StdDraw.filledCircle(super.getX(), super.getY(),super.getRadius());
 	}
 
 
@@ -39,8 +42,12 @@ public class Zombie extends Entity {
 	 * @param entities the array of Entity objects in the simulation, consumed or not
 	 * @return the new Entity object to take the place of the current one
 	 */
-	public Entity update(Entity[] entities) {
-		// FIXME
-		throw new NotYetImplementedException();
+	public Entity update(Entity[] entities) { //i had to make findClosest public in order to use it here
+		Entity closest = super.findClosest(entities, false, true);
+		if (closest!=null){
+			super.moveToward(closest);
+		}
+		super.checkBounds();
+		return this; // did I do this right?
 	}
 }
