@@ -41,35 +41,23 @@ public class Nonzombie extends Entity {
 	 * @return the new Entity object to take the place of the current one
 	 */
 	public Entity update(Entity[] entities) {
-		boolean touchingZombie = false;
-		Entity zombie;
-		for (Entity entity : entities){
-			if (entity.isZombie() && this.isTouching(entity) && entity!=this){
-				zombie = entity;
-				touchingZombie = true;
+		Zombie closest = super.findClosestZombie(entities);
+		if (this.isTouching(closest)){
+			if (Math.random()<=0.8){
+				closest = this.convert();
+				return closest;
+			}
+			else {
+				super.wasConsumed();
+				closest.consumeNonzombie();
 			}
 		}
-		if (touchingZombie){
-			for (int i=0; i<entities.length; i++){
-				if (entities[i] == this){
-					if (Math.random()<=0.8){
-						entities[i] = this.convert();
-						return entities[i];
-					}
-					else {
-						super.wasConsumed();
-						zombie.sub.consumeNonzombie(); //idk how to fix this cuz sub. isn't a thing...
-					}
-				}
-			}
-		}
-		Entity closest = super.findClosest(entities, true, false);
 		if (closest!=null){
 			super.moveAwayFrom(closest);
 		}
 		super.checkBounds();
 		return this;
-	} // did I do this right?
+	}
 
 
 }

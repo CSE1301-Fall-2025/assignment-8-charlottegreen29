@@ -7,6 +7,7 @@ import support.cse131.NotYetImplementedException;
 
 public class Entity {
 	private double x, y, speed;
+	private boolean isZombie;
 	private double radius = 0.008;
 	private boolean isAlive = true;
 
@@ -29,7 +30,8 @@ public class Entity {
 	public Entity(double x, double y, boolean isZombie, double speed) {
 		this.x = x;
 		this.y = y;
-		this.speed = speed; //idk what to do about isZombie; i'm not putting it into the constructor for now
+		this.isZombie = isZombie;
+		this.speed = speed;
 	}
 
 	/**
@@ -64,7 +66,7 @@ public class Entity {
 	 * @return the status of the Entity
 	 */
 	public boolean isAlive() {
-		return this.isAlive; //was i supposed to make a new instance variable?
+		return this.isAlive;
 	}
 
 	/**
@@ -79,8 +81,7 @@ public class Entity {
 	 * @return if the Entity is a Zombie (this is a placeholder - it should never be called)
 	 */
 	public boolean isZombie() {
-		//FIXME
-		throw new NotYetImplementedException(); //do i need to do anything here?
+		return this.isZombie;
 	}
 
 
@@ -193,7 +194,7 @@ public class Entity {
 	 * @param includeNonzombies whether to include nonzombies in this search or not.
 	 * @return the closest Entity to this Entity in entities (which is not this).
 	 */
-	public Entity findClosest(Entity[] entities, boolean includeZombies, boolean includeNonzombies) {
+	private Entity findClosest(Entity[] entities, boolean includeZombies, boolean includeNonzombies) {
 		Entity closest = null;
 		double closestDist = Double.MAX_VALUE;
 		for (Entity other : entities) {
@@ -245,7 +246,7 @@ public class Entity {
 	/**
 	 * If the entity has moved out of bounds, returns it inbounds
 	 */
-	public void checkBounds() { //is this right?
+	public void checkBounds() {
 		if (this.x <= 0){
 			this.x += this.speed;
 		}

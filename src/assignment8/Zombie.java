@@ -24,7 +24,7 @@ public class Zombie extends Entity {
 			super.setRadius(super.getRadius()*1.2);
 		}
 		else {
-			super.setRadius(0.02); //I don't have an if statement that checks if it touched a nonzombie; should I have one?
+			super.setRadius(0.02);
 		}
 	}
 
@@ -43,11 +43,11 @@ public class Zombie extends Entity {
 	 * @return the new Entity object to take the place of the current one
 	 */
 	public Entity update(Entity[] entities) { //i had to make findClosest public in order to use it here
-		Entity closest = super.findClosest(entities, false, true);
+		Entity closest = super.findClosestNonzombie(entities);
 		if (closest!=null){
 			this.moveToward(closest);
 		}
 		this.checkBounds();
-		return this; // did I do this right?
+		return this;
 	}
 }
